@@ -1,28 +1,30 @@
-import logo from "./logo.svg";
+
 import "./App.css";
 import Card from "./card";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
-let initial = [];
-async function data() {
-  const response = await fetch("https://restcountries.eu/rest/v2/region/asia");
-  const da = await response.json();
-  console.log(da);
-  initial = da;
-}
-data();
+
+let ee=1;
 
 function App() {
-  const [countries, sc] = useState(initial);
+
+
+  const [countries, sc] = useState([]);
+ 
+  useEffect(()=>{
+    data();
+
+  },[ee]);
 
   async function data() {
     const response = await fetch(
       "https://restcountries.eu/rest/v2/region/asia"
     );
     const da = await response.json();
-    console.log(da);
+
     sc(da);
   }
+
 
   return (
     <>
@@ -31,7 +33,7 @@ function App() {
       <div className="box">
 
 
-       {countries.map((e)=>{
+       {countries.map((e,i)=>{
          let border="",language="";
          let n=e.borders.length;
          e.borders.map((e,i)=>{
@@ -56,6 +58,7 @@ function App() {
 
          return (
           <Card
+          key={i}
           src={e.flag}
           name={e.name}
           capital={e.capital}
